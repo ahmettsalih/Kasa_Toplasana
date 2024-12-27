@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasa Tıkla</title>
+    <link rel="icon" type="image/png" href="Assets/Ana Ekran/Icon 9.png">
+    <link rel="stylesheet" href="Assets/Css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Roboto Slab', serif;
+        }
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('Assets/Ana Ekran/arkaplan.jpeg') center/cover no-repeat;
+            filter: blur(7px);
+            z-index: -10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- YÜKLEME EKRANI -->
+
+    <div id="loading">
+        <video autoplay muted loop id="loading-video">
+            <source src="Assets/Ana Ekran/Yükleme.mp4" type="video/mp4">
+        </video>
+    </div>    
+
+    <!---- ANA EKRAN ---->
+
+    <!-- Karşılama  -->
+
+    <div class="karsilama" id="karsilama">
+        <h2>Hoş Geldiniz!</h2>
+        <p style="font-size: large;">Sistem parçalarını görmek için Kasanın üzerinde bulunan parçalara tıklayabilir veya sol tarafta bulunan menüden görmek istediğiniz parçaları seçebilirsiniz!</p>
+        <button class="karsilama-kapama" onclick="closeKarsilama()">Kapat</button>
+      </div>
+
+      <!-- Kenar Çubuğu -->
+
+    <div class="kenar-cubugu">
+        <h2>Menü</h2>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="Hakkımızda/hakkımızda.html">Hakkımızda</a></li>
+          <li><a href="İletişim/iletisim.html">İletişim</a></li>
+          <li><a href="Sepetim/sepetim.html">Sepetim</a></li>
+          <li onclick="toggleMenu()">Bilgisayar Parçaları
+            <ul class="submenu">
+              <li onclick="showCustomPopup('gpu-popup')">Ekran Kartları</li>
+              <li onclick="showCustomPopup('cpu-popup')">İşlemciler</li>
+              <li onclick="showCustomPopup('mainboard-popup')">Anakartlar</li>
+              <li onclick="showCustomPopup('ram-popup')">Ramler</li>
+              <li onclick="showCustomPopup('ssd-popup')">Hafıza Kartları</li>
+              <li onclick="showCustomPopup('cooler-popup')">Soğutma Sistemleri</li>
+              <li onclick="showCustomPopup('fan-popup')">Fanlar</li>
+              <li onclick="showCustomPopup('psu-popup')">Güç Kutuları</li>
+              <li onclick="showCustomPopup('case-popup')">Kasalar</li>
+            </ul>
+          <!--</li>-->
+        </ul>
+      </div>
+   
+    <div id="background"></div>
+
+    <!---- KASA PARÇALARI ---->
+    <div id="kasa-container">
+        <!-- Ana Kasa -->
+        <img src="Assets/Ana Ekran/kasa.jpeg" alt="Kasa" id="kasa">
+        <!-- Ekran Kartı Butonu -->
+        <img src="Assets/Ana Ekran/ekrankartı.png" alt="GPU" class="gpu-button blink-hover col" title="Ekran Kartları" onclick="showCustomPopup('gpu-popup')">
+        <!-- Anakart Butonu -->
+        <img src="Assets/Ana Ekran/anakartparcasız.png" alt="Mainboard" class="mainboard-button blink-hover" title="Anakartlar" onclick="showCustomPopup('mainboard-popup')">
+        <!-- Güç Kutusu Butonu -->
+        <img src="Assets/Ana Ekran/psuparcasız.png" alt="PSU" class="psu-button blink-hover" title="Güç Kutuları" onclick="showCustomPopup('psu-popup')">
+        <!-- Ram Butonu -->
+        <img src="Assets/Ana Ekran/Ram.png" alt="Ram" class="ram-button blink-hover" title="Ramler" onclick="showCustomPopup('ram-popup')">
+        <!-- İşlemci Butonu-->
+        <img src="Assets/Ana Ekran/İşlemci.png" alt="CPU" class="cpu-button blink-hover" title="İşlemciler" onclick="showCustomPopup('cpu-popup')">
+        <!-- İşlemci Butonu-->
+        <img src="Assets/Ana Ekran/sogutma.png" alt="cooler" class="cooler-button blink-hover" title="Soğutma Sistemleri" onclick="showCustomPopup('cooler-popup')">
+        <!-- SSD Butonu-->
+        <img src="Assets/Ana Ekran/SSD.png" alt="SSD" class="ssd-button blink-hover" title="Hafıza Kartları" onclick="showCustomPopup('ssd-popup')">
+        <!-- Dikey Fanların Butonu-->
+        <img src="Assets/Ana Ekran/dikeyfanlar.png" alt="Fans Vertical" class="fans-vertical-button blink-hover" title="Fanlar" onclick="showCustomPopup('fan-popup')"  >
+        <!-- Yatay Fanların Butonu-->
+        <img src="Assets/Ana Ekran/yatayfanlar.png" alt="Fans Horizontal" class="fans-horizontal-button blink-hover" title="Fanlar" onclick="showCustomPopup('fan-popup')">
+        <!-- Kasa Butonu-->
+        <img src="Assets/Ana Ekran/kasaici.png" alt="Case" class="case-button blink-hover" title="Kasalar" onclick="showCustomPopup('case-popup')">
+    </div>
+
+    <!-- AÇILIR PENCERELER -->
+     
+     <!-- Ekran Kartı Açılır Penceresi -->
+    <div id="gpu-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('gpu-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/4090 asus.png" alt="RTX 4070 SUPER GAMING X SLIM MLG">
+            <h4 class="acıklamalar">ASUS ROG STRIX GeForce RTX 4090 WHITE OC 24GB GDDR6X 384Bit DLSS 3</h4>
+            <button class="satin-al" onclick="addToCart('ASUS ROG STRIX GeForce RTX 4090 WHITE OC 24GB GDDR6X 384Bit DLSS', 104.786)">Sepete Ekle <br>104.786TL</button>
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/4090 msi.png" alt="MSI GeForce RTX 4090 VENTUS 3X E 24G OC 24GB GDDR6X 384 Bit DLSS 3">
+            <h4 class="acıklamalar">MSI GeForce RTX 4090 VENTUS 3X E 24G OC 24GB GDDR6X 384 Bit DLSS 3</h4>
+            <button class="satin-al" onclick="addToCart('MSI GeForce RTX 4090 VENTUS 3X E 24G OC 24GB GDDR6X 384 Bit DLSS 3 Ekran Kartı', 96.226)">Sepete Ekle <br>96.226TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/4080 msi.png" alt="MSI GeForce RTX 4080 GAMING X SLIM WHITE 16GB GDDR6X 256Bit">
+            <h4 class="acıklamalar">MSI GeForce RTX 4080 GAMING X SLIM WHITE 16GB GDDR6X 256Bit</h4>
+            <button class="satin-al" onclick="addToCart('MSI GeForce RTX 4080 GAMING X SLIM WHITE 16GB GDDR6X 256Bit', 70.149)">Sepete Ekle <br>70.149TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/4080 zotac.png" alt="ZOTAC GeForce RTX 4080 SUPER TRINITY BLACK 16GB GDDR6X 256Bit DLSS 3">
+            <h4 class="acıklamalar">ZOTAC GeForce RTX 4080 SUPER TRINITY BLACK 16GB GDDR6X 256Bit DLSS 3</h4>
+            <button class="satin-al" onclick="addToCart('ZOTAC GeForce RTX 4080 SUPER TRINITY BLACK 16GB GDDR6X 256Bit DLSS ', 56.282)">Sepete Ekle <br>56.282TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/7900 msi.png" alt="MSI RADEON RX 7900 XT GAMING TRIO 20GB GDDR6 320Bit">
+            <h4 class="acıklamalar">MSI RADEON RX 7900 XT GAMING TRIO 20GB GDDR6 320Bit</h4>
+            <button class="satin-al" onclick="addToCart('MSI RADEON RX 7900 XT GAMING TRIO 20GB GDDR6 320Bit', 51.874)">Sepete Ekle <br>51.874TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/4070 zotac.png" alt="ZOTAC GeForce RTX 4070 Ti SUPER WHITE OC 16GB GDDR6X 256Bit DLSS 3">
+            <h4 class="acıklamalar">ZOTAC GeForce RTX 4070 Ti SUPER WHITE OC 16GB GDDR6X 256Bit DLSS 3</h4>
+            <button class="satin-al" onclick="addToCart('ZOTAC GeForce RTX 4070 Ti SUPER WHITE OC 16GB GDDR6X 256Bit DLSS 3', 45.858)">Sepete Ekle <br>45.858TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ekran Kartları/4060 msi.png" alt="MSI GEFORCE RTX 4060 TI GAMING X SLIM 16GB GDDR6 128 Bit DLSS 3">
+            <h4 class="acıklamalar">MSI GEFORCE RTX 4060 TI GAMING X SLIM 16GB GDDR6 128 Bit DLSS 3</h4>
+            <button class="satin-al" onclick="addToCart('MSI GEFORCE RTX 4060 TI GAMING X SLIM 16GB GDDR6 128 Bit DLSS 3', 26.337)">Sepete Ekle <br>26.337TL</button>
+        </li>
+    </ul>    
+    </div>
+
+    <!-- Anakart Açılır Penceresi -->
+    <div id="mainboard-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('mainboard-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Anakartlar/z890 asus.png" alt="ASUS ROG MAXIMUS Z890 EXTREME WIFI Intel Z890 Soket 1851 DDR5 9200Mhz (OC) M.2">
+            <h4 class="acıklamalar">ASUS ROG MAXIMUS Z890 EXTREME WIFI Intel Z890 Soket 1851 DDR5 9200Mhz (OC) M.2</h4>
+            <button class="satin-al" onclick="addToCart('ASUS ROG MAXIMUS Z890 EXTREME WIFI Intel Z890 Soket 1851 DDR5 9200Mhz (OC) M.2', 72.207)">Sepete Ekle <br>72.207TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Anakartlar/z890 asrock.png" alt="ASROCK Z890 TAICHI AQUA Intel Z890 Soket 1851 DDR5 9600MHz (OC) M.2">
+            <h4 class="acıklamalar">ASROCK Z890 TAICHI AQUA Intel Z890 Soket 1851 DDR5 9600MHz (OC) M.2</h4>
+            <button class="satin-al" onclick="addToCart('ASROCK Z890 TAICHI AQUA Intel Z890 Soket 1851 DDR5 9600MHz (OC) M.2', 44.858)">Sepete Ekle <br>44.858TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Anakartlar/b650 asus.png" alt="ASUS ROG STRIX B650-A GAMING WF AMD B650 Soket AM5 DDR5 6400MHz (OC)">
+            <h4 class="acıklamalar">ASUS ROG STRIX B650-A GAMING WF AMD B650 Soket AM5 DDR5 6400MHz (OC)</h4>
+            <button class="satin-al" onclick="addToCart('ASUS ROG STRIX B650-A GAMING WF AMD B650 Soket AM5 DDR5 6400MHz (OC)', 12.529)">Sepete Ekle <br>12.529TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Anakartlar/b760 asrock.png" alt="ASROCK B760M PG SONIC WIFI Intel B760 Soket 1700 DDR5 7200MHz (OC) M.2">
+            <h4 class="acıklamalar">ASROCK B760M PG SONIC WIFI Intel B760 Soket 1700 DDR5 7200MHz (OC) M.2</h4>
+            <button class="satin-al" onclick="addToCart('ASROCK B760M PG SONIC WIFI Intel B760 Soket 1700 DDR5 7200MHz (OC) M.2', 9.091)">Sepete Ekle <br>9.091TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Anakartlar/b550 msi.png" alt="MSI MPG B550 GAMING PLUS Amd B550 Soket AM4 DDR4 4400(OC) M.2">
+            <h4 class="acıklamalar">MSI MPG B550 GAMING PLUS Amd B550 Soket AM4 DDR4 4400(OC) M.2</h4>
+            <button class="satin-al" onclick="addToCart('MSI MPG B550 GAMING PLUS Amd B550 Soket AM4 DDR4 4400(OC) M.2', 6.976)">Sepete Ekle <br>6.976TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Anakartlar/b450 msi.png" alt="MSI B450 GAMING PLUS MAX Amd B450 Soket AM4 DDR4 3466(OC)">
+            <h4 class="acıklamalar">MSI B450 GAMING PLUS MAX Amd B450 Soket AM4 DDR4 3466(OC)</h4>
+            <button class="satin-al" onclick="addToCart('MSI B450 GAMING PLUS MAX Amd B450 Soket AM4 DDR4 3466(OC)', 4.522)">Sepete Ekle <br>4.522TL</button>
+
+        </li>
+    </ul>
+    </div>
+    <!-- Güç Kutusu Açılır Penceresi -->
+    <div id="psu-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('psu-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Güç Kutuları/1650w.png" alt="THERMALTAKE TOUGHPOWER GF3 1650W GOLD 80PLUS FULL">
+            <h4 class="acıklamalar">THERMALTAKE TOUGHPOWER GF3 1650W GOLD 80PLUS FULL</h4>
+            <button class="satin-al" onclick="addToCart('THERMALTAKE TOUGHPOWER GF3 1650W GOLD 80PLUS FULL', 23.270)">Sepete Ekle <br>23.270TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Güç Kutuları/1200w.png" alt="RAZER Katana 1200W 80Plus Platınum ARGB Full">
+            <h4 class="acıklamalar">RAZER Katana 1200W 80Plus Platınum ARGB Full</h4>
+            <button class="satin-al" onclick="addToCart('RAZER Katana 1200W 80Plus Platınum ARGB Full', 20.909)">Sepete Ekle <br>20.909TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Güç Kutuları/1300w.png" alt="MSI MEG AI1300P PCIE5 1300W 80 PLUS PLATINUM Full">
+            <h4 class="acıklamalar">MSI MEG AI1300P PCIE5 1300W 80 PLUS PLATINUM Full</h4>
+            <button class="satin-al" onclick="addToCart('MSI MEG AI1300P PCIE5 1300W 80 PLUS PLATINUM Full', 15.866)">Sepete Ekle <br>15.866TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Güç Kutuları/850w.png" alt="THERMALTAKE TOUGHPOWER GF 80 PLUS GOLD 850W ARGB FULL">
+            <h4 class="acıklamalar">THERMALTAKE TOUGHPOWER GF 80 PLUS GOLD 850W ARGB FULL</h4>
+            <button class="satin-al" onclick="addToCart('THERMALTAKE TOUGHPOWER GF 80 PLUS GOLD 850W ARGB FULL', 10.626)">Sepete Ekle <br>10.626TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Güç Kutuları/750w.png" alt="MSI MPG A750GF 750W 80 PLUS GOLD">
+            <h4 class="acıklamalar">MSI MPG A750GF 750W 80 PLUS GOLD</h4>
+            <button class="satin-al" onclick="addToCart('MSI MPG A750GF 750W 80 PLUS GOLD', 5.792)">Sepete Ekle <br>5.792TL</button>
+
+        </li>
+    </ul>
+    </div>
+    <!-- Ram Açılır Penceresi -->
+    <div id="ram-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('ram-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ramler/96gb .png" alt="GSKILL 96GB (2x48GB) TRIDENT Z5 SİYAH DDR5 6800MHz CL34 1.35V RGB">
+            <h4 class="acıklamalar">GSKILL 96GB (2x48GB) TRIDENT Z5 SİYAH DDR5 6800MHz CL34 1.35V RGB</h4>
+            <button class="satin-al" onclick="addToCart('GSKILL 96GB (2x48GB) TRIDENT Z5 SİYAH DDR5 6800MHz CL34 1.35V RGB', 20.573)">Sepete Ekle <br>20.573TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ramler/64gb.png" alt="XPG Lancer Beyaz RGB DDR5-6400Mhz CL32 64GB (2x32GB) Dual Kit">
+            <h4 class="acıklamalar">XPG Lancer Beyaz RGB DDR5-6400Mhz CL32 64GB (2x32GB) Dual Kit</h4>
+            <button class="satin-al" onclick="addToCart('XPG Lancer Beyaz RGB DDR5-6400Mhz CL32 64GB (2x32GB) Dual Kit', 11.689)">Sepete Ekle <br>11.689TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ramler/48gb.png" alt="GSKILL 48GB (2x24GB) TZ5 Neo RGB DDR5 1.35V 6400mhz CL32 EXPO Dual">
+            <h4 class="acıklamalar">GSKILL 48GB (2x24GB) TZ5 Neo RGB DDR5 1.35V 6400mhz CL32 EXPO Dual</h4>
+            <button class="satin-al" onclick="addToCart('GSKILL 48GB (2x24GB) TZ5 Neo RGB DDR5 1.35V 6400mhz CL32 EXPO Dual', 9.091)">Sepete Ekle<br>9.091TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ramler/32gb.png" alt="XPG Lancer Blade Beyaz RGB DDR5-6400Mhz CL32 32GB (2x16GB) Dual Kit">
+            <h4 class="acıklamalar">XPG Lancer Blade Beyaz RGB DDR5-6400Mhz CL32 32GB (2x16GB) Dual Kit</h4>
+            <button class="satin-al" onclick="addToCart('XPG Lancer Blade Beyaz RGB DDR5-6400Mhz CL32 32GB (2x16GB) Dual Kit', 6.494)">Sepete Ekle <br>6.494TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Ramler/24gb.png" alt="GSKILL 24GB (1x24GB) Ripjaws S5 DDR5 5200MHz CL40 1.10V Single">
+            <h4 class="acıklamalar">GSKILL 24GB (1x24GB) Ripjaws S5 DDR5 5200MHz CL40 1.10V Single</h4>
+            <button class="satin-al" onclick="addToCart('GSKILL 24GB (1x24GB) Ripjaws S5 DDR5 5200MHz CL40 1.10V Single', 2.546)">Sepete Ekle <br>2.546TL</button>
+
+        </li>
+    </ul>
+    </div>
+    <!-- İşlemci Açılır Penceresi -->
+    <div id="cpu-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('cpu-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/İşlemciler/i9 14.png" alt="Intel Core i9 14900KS Soket 1700 14.Nesil 6.0GHz 36MB Önbellek 10nm">
+            <h4 class="acıklamalar">Intel Core i9 14900KS Soket 1700 14.Nesil 6.0GHz 36MB Önbellek 10nm</h4>
+            <button class="satin-al" onclick="addToCart('Intel Core i9 14900KS Soket 1700 14.Nesil 6.0GHz 36MB Önbellek 10nm', 34.301)">Sepete Ekle <br>34.301TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/İşlemciler/amd 9.png" alt="AMD Ryzen 9 9950X Soket AM5 4.3GHz 64MB 170W 4nm">
+            <h4 class="acıklamalar">AMD Ryzen 9 9950X Soket AM5 4.3GHz 64MB 170W 4nm</h4>
+            <button class="satin-al" onclick="addToCart('AMD Ryzen 9 9950X Soket AM5 4.3GHz 64MB 170W 4nm', 30.272)">Sepete Ekle <br>30.272TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/İşlemciler/i5 14.png" alt="Intel Core i5 14500 Soket 1700 14.Nesil 5.0GHz 20MB Önbellek 10nm">
+            <h4 class="acıklamalar">Intel Core i5 14500 Soket 1700 14.Nesil 5.0GHz 20MB Önbellek 10nm</h4>
+            <button class="satin-al" onclick="addToCart('Intel Core i5 14500 Soket 1700 14.Nesil 5.0GHz 20MB Önbellek 10nm', 21.300)">Sepete Ekle <br>21.300TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/İşlemciler/amd 7.png" alt="AMD Ryzen™7 8700G Soket AM5 4.2 GHz 24MB 65W 4nm">
+            <h4 class="acıklamalar">AMD Ryzen™7 8700G Soket AM5 4.2 GHz 24MB 65W 4nm</h4>
+            <button class="satin-al" onclick="addToCart('AMD Ryzen™7 8700G Soket AM5 4.2 GHz 24MB 65W 4nm', 16.642)">Sepete Ekle <br>16.642TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/İşlemciler/i7 14.png" alt="Intel Core i7 14700F Soket 1700 14.Nesil 2.1GHz 33MB Önbellek 10nm">
+            <h4 class="acıklamalar">Intel Core i7 14700F Soket 1700 14.Nesil 2.1GHz 33MB Önbellek 10nm</h4>
+            <button class="satin-al" onclick="addToCart('Intel Core i7 14700F Soket 1700 14.Nesil 2.1GHz 33MB Önbellek 10nm', 14.799)">Sepete Ekle <br>14.799TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/İşlemciler/i3 14.png" alt="Intel Core i3 14100 Soket 1700 3,5GHz 14. Nesil 12MB Önbellek 10nm">
+            <h4 class="acıklamalar">Intel Core i3 14100 Soket 1700 3,5GHz 14. Nesil 12MB Önbellek 10nm</h4>
+            <button class="satin-al" onclick="addToCart('Intel Core i3 14100 Soket 1700 3,5GHz 14. Nesil 12MB Önbellek 10nm', 6.273)">Sepete Ekle <br>6.273TL</button>
+
+        </li>
+    </ul>
+    </div>
+    <!-- Soğutma Sistemi Açılır Pencersi -->
+    <div id="cooler-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('cooler-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Soğutma Sistemleri/asus 360.png" alt="ASUS ROG RYUJIN III EXTREME 360 ARGB OLED 360mm">
+            <h4 class="acıklamalar">ASUS ROG RYUJIN III EXTREME 360 ARGB OLED 360mm</h4>
+            <button class="satin-al" onclick="addToCart('ASUS ROG RYUJIN III EXTREME 360 ARGB OLED 360mm', 21.019)">Sepete Ekle <br>21.019TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Soğutma Sistemleri/asus 360 2.png" alt="ASUS ROG RYUO III 360 ARGB 3x120mm Fanlı Beyaz ">
+            <h4 class="acıklamalar">ASUS ROG RYUO III 360 ARGB 3x120mm Fanlı Beyaz </h4>
+            <button class="satin-al" onclick="addToCart('ASUS ROG RYUO III 360 ARGB 3x120mm Fanlı Beyaz ', 16.472)">Sepete Ekle <br>16.472TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Soğutma Sistemleri/msi 360.png" alt="MSI MEG CORELIQUID S360 360mm FANLI">
+            <h4 class="acıklamalar">MSI MEG CORELIQUID S360 360mm FANLI</h4>
+            <button class="satin-al" onclick="addToCart('MSI MEG CORELIQUID S360 360mm FANLI', 12.598)">Sepete Ekle <br>12.598TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Soğutma Sistemleri/cm 360.png" alt="COOLER MASTER MASTERLIQUID PL360 FLUX ARGB LED FANLI">
+            <h4 class="acıklamalar">COOLER MASTER MASTERLIQUID PL360 FLUX ARGB LED FANLI</h4>
+            <button class="satin-al" onclick="addToCart('COOLER MASTER MASTERLIQUID PL360 FLUX ARGB LED FANLI', 9.628)">Sepete Ekle <br>9.628TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Soğutma Sistemleri/msii 360.png" alt="MSI MAG CORELIQUID 360R V2 3x120mm ARGB FANLI">
+            <h4 class="acıklamalar">MSI MAG CORELIQUID 360R V2 3x120mm ARGB FANLI</h4>
+            <button class="satin-al" onclick="addToCart('MSI MAG CORELIQUID 360R V2 3x120mm ARGB FANLI', 5.271)">Sepete Ekle <br>5.271TL</button>
+
+        </li>
+    </ul>
+    </div>
+    <!-- Hafıza KArtı Açılır Penceresi -->
+    <div id="ssd-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('ssd-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Hafıza Kartları/4tb.png" alt="Crucial 4TB T700 Serisi 3D NAND 12400MB/11800MB PCIe Gen5 NVMe M.2">
+            <h4 class="acıklamalar">Crucial 4TB T700 Serisi 3D NAND 12400MB/11800MB PCIe Gen5 NVMe M.2</h4>
+            <button class="satin-al" onclick="addToCart('Crucial 4TB T700 Serisi 3D NAND 12400MB/11800MB PCIe Gen5 NVMe M.2', 20.162)">Sepete Ekle <br>20.162TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Hafıza Kartları/4tb2.png" alt="Samsung 4TB 990 PRO PCIE GEN 4.0 X4 NVME 2.0 (Okuma 7450MB/Yazma 6900MB)">
+            <h4 class="acıklamalar">Samsung 4TB 990 PRO PCIE GEN 4.0 X4 NVME 2.0 (Okuma 7450MB/Yazma 6900MB)</h4>
+            <button class="satin-al" onclick="addToCart('Samsung 4TB 990 PRO PCIE GEN 4.0 X4 NVME 2.0 (Okuma 7450MB/Yazma 6900MB)', 16.703)">Sepete Ekle <br>16.703TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Hafıza Kartları/2tb.png" alt="Samsung 2TB 990 PRO w/Heatsink M.2 (Okuma Hızı 7450MB / Yazma Hızı 6900MB)">
+            <h4 class="acıklamalar">Samsung 2TB 990 PRO w/Heatsink M.2 (Okuma Hızı 7450MB / Yazma Hızı 6900MB)</h4>
+            <button class="satin-al" onclick="addToCart('Samsung 2TB 990 PRO w/Heatsink M.2 (Okuma Hızı 7450MB / Yazma Hızı 6900MB)', 8.988)">Sepete Ekle <br>8.988TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Hafıza Kartları/1tb.png" alt="Samsung 1TB 990 PRO w/Heatsink M.2 (Okuma Hızı 7450MB / Yazma Hızı 6900MB)">
+            <h4 class="acıklamalar">Samsung 1TB 990 PRO w/Heatsink M.2 (Okuma Hızı 7450MB / Yazma Hızı 6900MB)</h4>
+            <button class="satin-al" onclick="addToCart('Samsung 1TB 990 PRO w/Heatsink M.2 (Okuma Hızı 7450MB / Yazma Hızı 6900MB)', 6.182)">Sepete Ekle <br>6.182TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Hafıza Kartları/1tb2.png" alt="Crucial 1TB T500 Serisi 3D NAND NVMe M.2 SSD (Okuma 7300MB / Yazma 6800MB)">
+            <h4 class="acıklamalar">Crucial 1TB T500 Serisi 3D NAND NVMe M.2 SSD (Okuma 7300MB / Yazma 6800MB)</h4>
+            <button class="satin-al" onclick="addToCart('Crucial 1TB T500 Serisi 3D NAND NVMe M.2 SSD (Okuma 7300MB / Yazma 6800MB)', 4.082)">Sepete Ekle <br>4.082TL</button>
+
+        </li>
+    </ul>
+    <!-- Fan Açılır Penceresi-->
+    </div>
+    <div id="fan-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('fan-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Fanlar/razer.png" alt="RAZER KUNAI RGB FAN 140MM 3FAN">
+            <h4 class="acıklamalar">RAZER KUNAI RGB FAN 140MM 3FAN</h4>
+            <button class="satin-al" onclick="addToCart('RAZER KUNAI RGB FAN 140MM 3FAN', 6.559)">Sepete Ekle <br>6.559TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Fanlar/tm.png" alt="THERMALTAKE Pure 12 3x120mm ARGB Fan+Kontrolcülü Kasa Fanı Kiti">
+            <h4 class="acıklamalar">THERMALTAKE Pure 12 3x120mm ARGB Fan+Kontrolcülü Kasa Fanı Kiti</h4>
+            <button class="satin-al" onclick="addToCart('THERMALTAKE Pure 12 3x120mm ARGB Fan+Kontrolcülü Kasa Fanı Kiti', 3.070)">Sepete Ekle <br>3.070TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Fanlar/rampage.png" alt="RAMPAGE 45CFM 2000RPM 3x12cm ARGB Fan Aura3P+4P 3in1 AIO Beyaz Kasa Fan Kiti">
+            <h4 class="acıklamalar">RAMPAGE 45CFM 2000RPM 3x12cm ARGB Fan Aura3P+4P 3in1 AIO Beyaz Kasa Fan Kiti</h4>
+            <button class="satin-al" onclick="addToCart('RAMPAGE 45CFM 2000RPM 3x12cm ARGB Fan Aura3P+4P 3in1 AIO Beyaz Kasa Fan Kiti', 2.058)">Sepete Ekle <br>2.058TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Fanlar/ramp.png" alt="RAMPAGE RB-K8 120mm ARGB LED FAN">
+            <h4 class="acıklamalar">RAMPAGE RB-K8 120mm ARGB LED FAN</h4>
+            <button class="satin-al" onclick="addToCart('RAMPAGE RB-K8 120mm ARGB LED FAN', 1.440)">Sepete Ekle <br>1.440TL</button>
+
+        </li>
+    </ul>
+    </div>
+    <!-- Kasa Açılır Penceresi -->
+    <div id="case-popup" class="custom-popup">
+        <span class="close-btn" onclick="closeCustomPopup('case-popup')">&times;</span>
+    <ul>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Kasalar/tm.png" alt="THERMALTAKE DistroCase 350P ATX Oyuncu Kasası">
+            <h4 class="acıklamalar">THERMALTAKE DistroCase 350P ATX Oyuncu Kasası</h4>
+            <button class="satin-al" onclick="addToCart('THERMALTAKE DistroCase 350P ATX Oyuncu Kasası', 31.863)">Sepete Ekle <br>31.863TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Kasalar/cm.png" alt="COOLER MASTER HAF 700 BEYAZ TEMPERED GLASS ARGB MESH TİTANYUM GRİ FULL TOWER KASA">
+            <h4 class="acıklamalar">COOLER MASTER HAF 700 BEYAZ TEMPERED GLASS ARGB MESH TİTANYUM GRİ FULL TOWER KASA</h4>
+            <button class="satin-al" onclick="addToCart('COOLER MASTER HAF 700 BEYAZ TEMPERED GLASS ARGB MESH TİTANYUM GRİ FULL TOWER KASA', 16.033)">Sepete Ekle <br>16.033TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Kasalar/cc.png" alt="COUGAR CONQUER GAMING USB3.0 MidT ATX KASA">
+            <h4 class="acıklamalar">COUGAR CONQUER GAMING USB3.0 MidT ATX KASA</h4>
+            <button class="satin-al" onclick="addToCart('COUGAR CONQUER GAMING USB3.0 MidT ATX KASA', 10.352)">Sepete Ekle <br>10.352TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Kasalar/rm.png" alt="RAMPAGE RUBICK 1X12cm ARGB Fan + Kontolcü Led Şeritli Standlı OYUNCU KASASI">
+            <h4 class="acıklamalar">RAMPAGE RUBICK 1X12cm ARGB Fan + Kontolcü Led Şeritli Standlı OYUNCU KASASI</h4>
+            <button class="satin-al" onclick="addToCart('RAMPAGE RUBICK 1X12cm ARGB Fan + Kontolcü Led Şeritli Standlı OYUNCU KASASI', 6.809)">Sepete Ekle <br>6.809TL</button>
+
+        </li>
+        <li class="ürünler">
+            <img class="ürün-fotoları" src="Assets/Açılır Pencere/Kasalar/cm2.png" alt="COOLER MASTER MasterBox MB520 Mesh ARGB USB 3.2 Beyaz E-ATX Mid TOWER KASA">
+            <h4 class="acıklamalar">COOLER MASTER MasterBox MB520 Mesh ARGB USB 3.2 Beyaz E-ATX Mid TOWER KASA</h4>
+            <button class="satin-al" onclick="addToCart('COOLER MASTER MasterBox MB520 Mesh ARGB USB 3.2 Beyaz E-ATX Mid TOWER KASA', 5.240)">Sepete Ekle <br>5.240TL</button>
+
+        </li>
+    </ul>
+    </div>   
+    <footer>
+        <div class="telif">© 2024 Elveren Ltd. Şti. Tüm Hakları Saklıdır.</div>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="Assets/Js/script.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+    const loadingScreen = document.getElementById('loading');
+    const video = document.getElementById('loading-video');
+
+    // Videnun daha hızlı oynamasını sağlar (örneğin 2x hız)
+    video.playbackRate = 2;
+
+    // Yükleme ekranını uzunluğu
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0'; // Opaklığı hızla sıfıra indir
+        setTimeout(() => {
+            loadingScreen.style.display = 'none'; // Yükleme ekranını kaldır
+        }, 200); 
+    }, 500); 
+    });
+    </script>
+</body>
+</html>
