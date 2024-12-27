@@ -33,6 +33,11 @@
     </style>
 </head>
 <body>
+    <div id="loading">
+        <video autoplay muted loop id="loading-video">
+            <source src="../Assets/Ana Ekran/Yükleme.mp4" type="video/mp4">
+        </video>
+    </div>
     <div id="background"></div>
     <div class="kenar-cubugu">
         <h2>Menü</h2>
@@ -62,5 +67,21 @@
     <footer>
         <div class="telif">© 2024 Elveren Ltd. Şti. Tüm Hakları Saklıdır.</div>
     </footer>
+    <script>
+        window.addEventListener('load', function () {
+        const loadingScreen = document.getElementById('loading');
+        const video = document.getElementById('loading-video');
+
+    
+        video.playbackRate = 2; 
+
+        setTimeout(() => {
+        loadingScreen.style.opacity = '0'; 
+        setTimeout(() => {
+            loadingScreen.style.display = 'none'; 
+        }, 200); 
+    }, 500); 
+    });
+    </script>
 </body>
 </html>
